@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Map of Hong Kong with MGRS grid</title>
+    <link rel="stylesheet" href="styles/extern/ol.css" />
+	<link rel="stylesheet" href="styles/styles.css" />
+</head>
+
+<body>
+	<div id="controls">
+		<button onclick="onclick_changemapbtn();">Change map</button>
+		<button onclick="onclick_exportbtn();">Export to pdf</button>
+	</div>
+    <div id="map" class="map"></div>
+
+    <script src="scripts/extern/ol.js"></script>
+    <script src="scripts/extern/proj4.js"></script>
+	<script src="scripts/gridpts.js"></script>
+	<script src="scripts/map.js"></script>
+
+	<script src="scripts/extern/jspdf.js"></script>
+	<script src="scripts/generate.js"></script>
+</body>
+
+</html>
