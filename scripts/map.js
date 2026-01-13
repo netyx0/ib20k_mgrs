@@ -1,5 +1,6 @@
 /* first set up the maps with HK80 projection */
 proj4.defs("EPSG:2326", "+proj=tmerc +lat_0=22.31213333333334 +lon_0=114.1785555555556 +k=1 +x_0=836694.05 +y_0=819069.8 +ellps=intl +towgs84=-162.619,-276.959,-161.764,0.067753,-2.24365,-1.15883,-1.09425 +units=m +no_defs");
+proj4.defs("EPSG:3857", "+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs +type=crs");
 proj4.defs("ESRI:102142","+proj=utm +zone=50 +ellps=intl +units=m +no_defs +type=crs");
 ol.proj.proj4.register(proj4)
 
@@ -80,6 +81,15 @@ var maplayer_ib20k = new ol.layer.Tile({
 		attributions: "<a href=\"https://portal.csdi.gov.hk/csdi-webpage/doc/TNC\">Map from Lands Department<img id=\"attribimg\" src=\"https://www.map.gov.hk/gm/res/images/core/lands.png\"></a>"
 	})
 });
+
+var maplayer_osm = new ol.layer.Tile({
+	source: new ol.source.XYZ({
+		url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+		projection: "EPSG:3857",
+		crossOrigin: "anonymous",
+		attributions: "<a href=\"https://openstreetmap.org/copyright\">© OpenStreetMap contributors</a>"
+	})
+})
 
 /* next set up the grid */
 const style_grid = new ol.style.Style({
@@ -202,6 +212,10 @@ var layerarr_ib20k = [
 	maplayer_ib20k,
 	maplayer_mgrsgrid
 ];
+var layerarr_osm = [
+	maplayer_osm,
+	maplayer_mgrsgrid
+];
 
 var map = new ol.Map({
 	target: "map",
@@ -221,16 +235,17 @@ var map = new ol.Map({
 		})])
 });
 
-const LAYER_GEOINFO = 0;
-const LAYER_IB20K = 1;
-var map_layer = LAYER_GEOINFO;
-function onclick_changemapbtn()
+function onclick_changemap_gi()
 {
-	if (map_layer == LAYER_GEOINFO) {
-		map_layer = LAYER_IB20K;
-		map.setLayers(layerarr_ib20k);
-	} else {
-		map_layer = LAYER_GEOINFO;
-		map.setLayers(layerarr_geoinfo);
-	}
+	map.setLayers(layerarr_geoinfo);
+}
+
+function onclick_changemap_ib20k()
+{
+	map.setLayers(layerarr_ib20k);
+}
+
+function onclick_changemap_osm()
+{
+	map.setLayers(layerarr_osm);
 }

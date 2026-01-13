@@ -7,11 +7,25 @@
 	top: 2vh;
 	right: 2vh;
 	z-index: 100;
+	background-color: white;
+	opacity: 0.8;
+	padding: 5px 5px 5px 5px;
+	border-style: solid;
+	border-color: black;
 }
-#controls > button {
+
+.controldiv > * {
 	display: block;
-	height: 32px;
 	width: 128px;
+
+}
+
+.controldiv > button {
+	height: 32px;
+}
+
+.controldiv > p {
+	text-align: center;
 }
 
 #attribimg {

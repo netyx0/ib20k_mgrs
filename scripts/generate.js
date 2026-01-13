@@ -3,7 +3,7 @@
  * https://openlayers.org/en/latest/examples/export-pdf.html
 */
 
-function onclick_exportbtn()
+function onclick_export_1to20k()
 {
 	const resolution = 150;
 	const dim = [297, 210];

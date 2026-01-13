@@ -8,8 +8,18 @@
 
 <body>
 	<div id="controls">
-		<button onclick="onclick_changemapbtn();">Change map</button>
-		<button onclick="onclick_exportbtn();">Export to pdf</button>
+		<div id="controls_mapchange" class="controldiv">
+			<p>Change Map</p>
+			<button onclick="onclick_changemap_gi();">GeoInfo map</button>
+			<button onclick="onclick_changemap_ib20k();">iB20000 map</button>
+			<button onclick="onclick_changemap_osm();">OpenStreetMap</button>
+		</div>
+		<hr />
+		<div id="controls_export2pdf" class="controldiv">
+			<p>Export to PDF</p>
+			<button onclick="onclick_export_1to20k();">Scale to 1:20000</button>
+			<button onclick="onclick_export_cur();">At current scale</button>
+		</div>
 	</div>
     <div id="map" class="map"></div>
 
