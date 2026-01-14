@@ -163,6 +163,10 @@ function export_map_clickfunc(e)
 				[x, y - 21.0*200],
 				[x, y]
 			]])})]
+		}),
+		style: new ol.style.Style({
+			fill: new ol.style.Fill({color: [200, 0, 0, 0.33]}),
+			stroke: new ol.style.Stroke({color: [200, 0, 0, 1]})
 		})
 	});
 	map.addLayer(export_area_polygon_layer);

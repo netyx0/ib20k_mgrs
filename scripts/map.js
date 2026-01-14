@@ -61,7 +61,7 @@ var maplayer_geoinfobasemap = new ol.layer.Tile({
 		projection: "EPSG:2326",
 		tileGrid: hk80_tilegrid,
 		crossOrigin: "anonymous",
-		attributions: "<a href=\"https://portal.csdi.gov.hk/csdi-webpage/doc/TNC\">Map from Lands Department<img id=\"attribimg\" src=\"https://www.map.gov.hk/gm/res/images/core/lands.png\"></a>"
+		attributions: "<a href=\"https://portal.csdi.gov.hk/csdi-webpage/doc/TNC\"><img id=\"attribimg\" src=\"https://www.map.gov.hk/gm/res/images/core/lands.png\" />地圖由地政總署提供</a>"
 	})
 });
 var maplayer_geoinfolabels = new ol.layer.Tile({
@@ -78,9 +78,18 @@ var maplayer_ib20k = new ol.layer.Tile({
 		projection: "EPSG:2326",
 		tileGrid: hk80_tilegrid,
 		crossOrigin: "anonymous",
-		attributions: "<a href=\"https://portal.csdi.gov.hk/csdi-webpage/doc/TNC\">Map from Lands Department<img id=\"attribimg\" src=\"https://www.map.gov.hk/gm/res/images/core/lands.png\"></a>"
+		attributions: "<a href=\"https://portal.csdi.gov.hk/csdi-webpage/doc/TNC\"><img id=\"attribimg\" src=\"https://www.map.gov.hk/gm/res/images/core/lands.png\" />地圖由地政總署提供</a>"
 	})
 });
+var maplayer_aerial = new ol.layer.Tile({
+	source: new ol.source.XYZ({
+		url: "https://mapapi.geodata.gov.hk/gs/api/v1.0.0/xyz/imagery/HK80/{z}/{x}/{y}.png",
+		projection: "EPSG:2326",
+		tileGrid: hk80_tilegrid,
+		crossOrigin: "anonymous",
+		attributions: "<a href=\"https://portal.csdi.gov.hk/csdi-webpage/doc/TNC\"><img id=\"attribimg\" src=\"https://www.map.gov.hk/gm/res/images/core/lands.png\" />航空照片由地政總署提供</a><p class=\"attrib\"> | Contains modified Copernicus Sentinel data [2022]</p>"
+	})
+})
 
 var maplayer_osm = new ol.layer.Tile({
 	source: new ol.source.XYZ({
@@ -212,6 +221,10 @@ var layerarr_ib20k = [
 	maplayer_ib20k,
 	maplayer_mgrsgrid
 ];
+var layerarr_aerial = [
+	maplayer_aerial,
+	maplayer_mgrsgrid
+];
 var layerarr_osm = [
 	maplayer_osm,
 	maplayer_mgrsgrid
@@ -237,15 +250,28 @@ var map = new ol.Map({
 
 function onclick_changemap_gi()
 {
-	map.setLayers(layerarr_geoinfo);
+	change_layer(layerarr_geoinfo);
 }
 
 function onclick_changemap_ib20k()
 {
-	map.setLayers(layerarr_ib20k);
+	change_layer(layerarr_ib20k);
+}
+
+function onclick_changemap_aerial()
+{
+	change_layer(layerarr_aerial);
 }
 
 function onclick_changemap_osm()
 {
-	map.setLayers(layerarr_osm);
+	change_layer(layerarr_osm);
+}
+
+function change_layer(layers)
+{
+	map.setLayers(layers);
+	if (export_area_polygon_layer) {
+		map.addLayer(export_area_polygon_layer);
+	}
 }
