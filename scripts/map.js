@@ -4,62 +4,70 @@ proj4.defs("EPSG:3857", "+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_
 proj4.defs("ESRI:102142","+proj=utm +zone=50 +ellps=intl +units=m +no_defs +type=crs");
 ol.proj.proj4.register(proj4)
 
-var hk80_tilegrid = new ol.tilegrid.TileGrid({
-	extent: [795233.5770899998, 794267.8361200001, 872991.5360700004, 853188.3580900002],
-	origin: [-4786700.0, 8353100.0],
-	scales: [
-		5.91657527591555E8,
-		2.95828763795777E8,
-		1.47914381897889E8,
-		7.3957190948944E7,
-		3.6978595474472E7,
-		1.8489297737236E7,
-		9244648.868618,
-		4622324.434309,
-		2311162.217155,
-		1155581.108577,
-		577790.554289,
-		288895.277144,
-		144447.638572,
-		72223.819286,
-		36111.909643,
-		18055.954822,
-		9027.977411,
-		4513.988705,
-		2256.994353,
-		1128.497176,
-		564.248588
-	],
-	resolutions: [
-		156543.03392800014,
-		78271.51696399994,
-		39135.75848200009,
-		19567.87924099992,
-		9783.93962049996,
-		4891.96981024998,
-		2445.98490512499,
-		1222.992452562495,
-		611.4962262813797,
-		305.74811314055756,
-		152.87405657041106,
-		76.43702828507324,
-		38.21851414253662,
-		19.10925707126831,
-		9.554628535634155,
-		4.77731426794937,
-		2.388657133974685,
-		1.1943285668550503,
-		0.5971642835598172,
-		0.29858214164761665,
-		0.14929107082380833
-	]
-});
+function hk80_tilegrid(min_zoom, max_zoom)
+{
+	var ret = new ol.tilegrid.TileGrid({
+		extent: [795233.5770899998, 794267.8361200001, 872991.5360700004, 853188.3580900002],
+		origin: [-4786700.0, 8353100.0],
+		scales: [
+			5.91657527591555E8,
+			2.95828763795777E8,
+			1.47914381897889E8,
+			7.3957190948944E7,
+			3.6978595474472E7,
+			1.8489297737236E7,
+			9244648.868618,
+			4622324.434309,
+			2311162.217155,
+			1155581.108577,
+			577790.554289,
+			288895.277144,
+			144447.638572,
+			72223.819286,
+			36111.909643,
+			18055.954822,
+			9027.977411,
+			4513.988705,
+			2256.994353,
+			1128.497176,
+			564.248588
+		],
+		resolutions: [
+			156543.03392800014,
+			78271.51696399994,
+			39135.75848200009,
+			19567.87924099992,
+			9783.93962049996,
+			4891.96981024998,
+			2445.98490512499,
+			1222.992452562495,
+			611.4962262813797,
+			305.74811314055756,
+			152.87405657041106,
+			76.43702828507324,
+			38.21851414253662,
+			19.10925707126831,
+			9.554628535634155,
+			4.77731426794937,
+			2.388657133974685,
+			1.1943285668550503,
+			0.5971642835598172,
+			0.29858214164761665,
+			0.14929107082380833
+		],
+	});
+
+	/* yikes - stupid hack */
+	ret.minZoom = min_zoom;
+	ret.maxZoom = max_zoom;
+	return ret;
+}
 
 var maplayer_geoinfobasemap = new ol.layer.Tile({
 	source: new ol.source.XYZ({
 		url: "https://mapapi.geodata.gov.hk/gs/api/v1.0.0/xyz/basemap/HK80/{z}/{x}/{y}.png",
 		projection: "EPSG:2326",
-		tileGrid: hk80_tilegrid,
+		tileGrid: hk80_tilegrid(10, 20),
 		crossOrigin: "anonymous",
 		attributions: "<a href=\"https://portal.csdi.gov.hk/csdi-webpage/doc/TNC\"><img id=\"attribimg\" src=\"https://www.map.gov.hk/gm/res/images/core/lands.png\" />地圖由地政總署提供</a>"
 	})
@@ -68,7 +76,7 @@ var maplayer_geoinfolabels = new ol.layer.Tile({
 	source: new ol.source.XYZ({
 		url: "https://mapapi.geodata.gov.hk/gs/api/v1.0.0/xyz/label/hk/tc/hk80/{z}/{x}/{y}.png",
 		projection: "EPSG:2326",
-		tileGrid: hk80_tilegrid,
+		tileGrid: hk80_tilegrid(8, 20),
 		crossOrigin: "anonymous"
 	})
 });
@@ -76,7 +84,7 @@ var maplayer_ib20k = new ol.layer.Tile({
 	source: new ol.source.XYZ({
 		url: "https://services2.map.gov.hk/xyz/ib20000/tile/{z}/{y}/{x}?blankTile=false",
 		projection: "EPSG:2326",
-		tileGrid: hk80_tilegrid,
+		tileGrid: hk80_tilegrid(8, 18),
 		crossOrigin: "anonymous",
 		attributions: "<a href=\"https://portal.csdi.gov.hk/csdi-webpage/doc/TNC\"><img id=\"attribimg\" src=\"https://www.map.gov.hk/gm/res/images/core/lands.png\" />地圖由地政總署提供</a>"
 	})
@@ -85,7 +93,7 @@ var maplayer_aerial = new ol.layer.Tile({
 	source: new ol.source.XYZ({
 		url: "https://mapapi.geodata.gov.hk/gs/api/v1.0.0/xyz/imagery/HK80/{z}/{x}/{y}.png",
 		projection: "EPSG:2326",
-		tileGrid: hk80_tilegrid,
+		tileGrid: hk80_tilegrid(7, 19),
 		crossOrigin: "anonymous",
 		attributions: "<a href=\"https://portal.csdi.gov.hk/csdi-webpage/doc/TNC\"><img id=\"attribimg\" src=\"https://www.map.gov.hk/gm/res/images/core/lands.png\" />航空照片由地政總署提供</a><p class=\"attrib\"> | Contains modified Copernicus Sentinel data [2022]</p>"
 	})
@@ -95,6 +103,7 @@ var maplayer_osm = new ol.layer.Tile({
 	source: new ol.source.XYZ({
 		url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
 		projection: "EPSG:3857",
+		maxZoom: 19,
 		crossOrigin: "anonymous",
 		attributions: "<a href=\"https://openstreetmap.org/copyright\">© OpenStreetMap contributors</a>"
 	})
@@ -207,7 +216,8 @@ draw_gridline_boundary(featurearr, [BOUNDARY_JKKK[1], BOUNDARY_JKKK[0]], "JK KK 
 var maplayer_mgrsgrid = new ol.layer.Vector({
 	source: new ol.source.Vector({
 		features: featurearr
-	})
+	}),
+	minZoom: 13
 });
 
 
@@ -240,7 +250,7 @@ var map = new ol.Map({
 		center: ol.proj.fromLonLat([114.1740, 22.3233], "ESRI:102142"),
 		zoom: 15,
 		minZoom: 10,
-		maxZoom: 18
+		maxZoom: 21
 	}),
 	controls: ol.control.defaults.defaults({attribution: false}).extend(
 		[new ol.control.Attribution({
