@@ -154,14 +154,20 @@ function export_map_clickfunc(e)
 		map.removeLayer(export_area_polygon_layer);
 		export_area_polygon_layer = null;
 	}
+	var cos = Math.cos(-map.getView().getRotation());
+	var sin = Math.sin(-map.getView().getRotation());
+
+	var a4wid = 29.7*200;
+	var a4len = 21.0*200;
+
 	export_area_polygon_layer = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: [new ol.Feature({geometry: new ol.geom.Polygon([[
-				[x, y],
-				[x + 29.7*200, y],
-				[x + 29.7*200, y - 21.0*200],
-				[x, y - 21.0*200],
-				[x, y]
+				[x,                         y],
+				[x + cos*a4wid,             y - sin*a4wid],
+				[x + cos*a4wid - sin*a4len, y - sin*a4wid - cos*a4len],
+				[x - sin*a4len,             y - cos*a4len],
+				[x,                         y]
 			]])})]
 		}),
 		style: new ol.style.Style({
@@ -173,7 +179,7 @@ function export_map_clickfunc(e)
 	document.getElementById("export_1to20k_export_btn").onclick = function() {
 		document.getElementById("export_1to20k_export_btn").onclick = function(){alert("No area selected!");};
 		var orig_centre = map.getView().getCenter();
-		map.getView().setCenter([x + 29.7/2*200, y - 21.0/2*200]);
+		map.getView().setCenter([x + cos*a4wid*0.5 - sin*a4len*0.5, y - sin*a4wid*0.5 - cos*a4len*0.5]);
 		export_cur_view_1to20k_offset(orig_centre);
 	}
 }
